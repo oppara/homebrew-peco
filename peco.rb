@@ -1,6 +1,6 @@
 require 'formula'
 
-HOMEBREW_PECO_VERSION='0.1.5'
+HOMEBREW_PECO_VERSION='0.1.6'
 class Peco < Formula
   homepage 'https://github.com/lestrrat/peco'
   url 'https://github.com/lestrrat/peco.git', :tag => "v#{HOMEBREW_PECO_VERSION}"
