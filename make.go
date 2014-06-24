@@ -21,9 +21,24 @@ class Peco < Formula
   version HOMEBREW_PECO_VERSION
   head 'https://github.com/peco/peco.git', :branch => 'master'
 
-  depends_on 'unzip' => :build
+  if build.head?
+    depends_on 'go' => :build
+    depends_on 'hg' => :build
+  else
+    depends_on 'unzip' => :build
+  end
 
   def install
+    if build.head?
+      ENV['GOPATH'] = buildpath
+      mkdir_p buildpath/'src/github.com/lestrrat'
+      ln_s buildpath, buildpath/'src/github.com/lestrrat/peco'
+      system 'go', 'get', 'github.com/jessevdk/go-flags'
+      system 'go', 'get', 'github.com/mattn/go-runewidth'
+      system 'go', 'get', 'github.com/nsf/termbox-go'
+      system 'go', 'get', 'github.com/peco/peco'
+      system 'go', 'build', 'cmd/peco/peco.go'
+    end
     bin.install 'peco'
   end
 end`

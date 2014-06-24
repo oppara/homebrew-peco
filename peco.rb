@@ -25,6 +25,7 @@ class Peco < Formula
       system 'go', 'get', 'github.com/jessevdk/go-flags'
       system 'go', 'get', 'github.com/mattn/go-runewidth'
       system 'go', 'get', 'github.com/nsf/termbox-go'
+      system 'go', 'get', 'github.com/peco/peco'
       system 'go', 'build', 'cmd/peco/peco.go'
     end
     bin.install 'peco'
