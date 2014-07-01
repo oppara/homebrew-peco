@@ -1,11 +1,11 @@
 # WARNING: Automatically generated. All changes to this file will be lost
 require 'formula'
 
-HOMEBREW_PECO_VERSION='0.1.11'
+HOMEBREW_PECO_VERSION='0.1.12'
 class Peco < Formula
   homepage 'https://github.com/peco/peco'
   url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_darwin_amd64.zip"
-  sha1 "b7a1eb66ee48b11505e6d790db98d84f257cdee6"
+  sha1 "cdecfb8e99cd370a71af960a6c02e20a1f81f268"
 
   version HOMEBREW_PECO_VERSION
   head 'https://github.com/peco/peco.git', :branch => 'master'
