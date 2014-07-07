@@ -62,7 +62,7 @@ func updatePecoRb(version string) {
 	h := sha1.New()
 	io.Copy(h, res.Body)
 
-	file, err := os.OpenFile("peco.rb", os.O_CREATE|os.O_WRONLY, 0644)
+	file, err := os.OpenFile("peco.rb", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		log.Fatalf("Failed to open file peco.rb: %s", err)
 	}
