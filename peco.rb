@@ -28,4 +28,4 @@ class Peco < Formula
     end
     bin.install 'peco'
   end
-endd
+end
