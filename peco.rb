@@ -18,8 +18,8 @@ class Peco < Formula
   def install
     if build.head?
       ENV['GOPATH'] = buildpath
-      mkdir_p buildpath/'src/github.com/lestrrat'
-      ln_s buildpath, buildpath/'src/github.com/lestrrat/peco'
+      mkdir_p buildpath/'src/github.com/peco'
+      ln_s buildpath, buildpath/'src/github.com/peco/peco'
       system 'go', 'get', 'github.com/jessevdk/go-flags'
       system 'go', 'get', 'github.com/mattn/go-runewidth'
       system 'go', 'get', 'github.com/nsf/termbox-go'
