@@ -15,8 +15,13 @@ require 'formula'
 HOMEBREW_PECO_VERSION='%s'
 class Peco < Formula
   homepage 'https://github.com/peco/peco'
-  url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_darwin_amd64.zip"
-  sha1 "%x"
+  if OS.mac?
+    url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_darwin_amd64.zip"
+    sha1 "%x"
+  elsif OS.linux?
+    url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_linux_amd64.tar.gz"
+    sha1 "%x"
+  end
 
   version HOMEBREW_PECO_VERSION
   head 'https://github.com/peco/peco.git', :branch => 'master'
@@ -47,8 +52,13 @@ require 'formula'
 HOMEBREW_MIGEMOGREP_VERSION='%s'
 class Migemogrep < Formula
   homepage 'https://github.com/peco/migemogrep'
-  url "https://github.com/peco/migemogrep/releases/download/v#{HOMEBREW_MIGEMOGREP_VERSION}/migemogrep_darwin_amd64.zip"
-  sha1 "%x"
+  if OS.mac?
+    url "https://github.com/peco/migemogrep/releases/download/v#{HOMEBREW_MIGEMOGREP_VERSION}/migemogrep_darwin_amd64.zip"
+    sha1 "%x"
+  elsif OS.linux?
+    url "https://github.com/peco/migemogrep/releases/download/v#{HOMEBREW_MIGEMOGREP_VERSION}/migemogrep_linux_amd64.tar.gz"
+    sha1 "%x"
+  end
 
   version HOMEBREW_MIGEMOGREP_VERSION
   head 'https://github.com/peco/migemogrep.git', :branch => 'master'
@@ -102,29 +112,38 @@ func updateMigemogrepRb(version string) int {
 	return updateGenericRb("migemogrep", version, migemogrepRbFmt)
 }
 
-// fetch applicable binary, generate checksum, and update the .rb file
-func updateGenericRb(target, version, template string) int {
-	url := fmt.Sprintf(
-		"https://github.com/peco/%s/releases/download/v%s/%s_darwin_amd64.zip",
-		target,
-		version,
-		target,
-	)
-
+func fetchSha1(url string) (sum []byte, err error) {
 	log.Printf("Fetching url %s...", url)
 	res, err := http.Get(url)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
-		return 1
+		return nil, err
 	}
 
 	if res.StatusCode != 200 {
 		fmt.Fprintf(os.Stderr, "Got %d instead of 200", res.StatusCode)
-		return 1
+		return nil, err
 	}
 
 	h := sha1.New()
 	io.Copy(h, res.Body)
+	return h.Sum(nil), nil
+}
+
+// fetch applicable binary, generate checksum, and update the .rb file
+func updateGenericRb(target, version, template string) int {
+	url := [2]string{
+		"https://github.com/peco/%s/releases/download/v%s/%s_darwin_amd64.zip",
+		"https://github.com/peco/%s/releases/download/v%s/%s_linux_amd64.tar.gz",
+	}
+	var sum [2][]byte
+	var err error
+
+	for i, u := range url {
+		if sum[i], err = fetchSha1(fmt.Sprintf(u, target, version, target)); err != nil {
+			return 1
+		}
+	}
 
 	filename := fmt.Sprintf("%s.rb", target)
 	file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
@@ -133,6 +152,6 @@ func updateGenericRb(target, version, template string) int {
 		return 1
 	}
 
-	fmt.Fprintf(file, template, version, h.Sum(nil))
+	fmt.Fprintf(file, template, version, sum[0], sum[1])
 	return 0
 }
