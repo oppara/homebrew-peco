@@ -4,8 +4,13 @@ require 'formula'
 HOMEBREW_PECO_VERSION='0.2.10'
 class Peco < Formula
   homepage 'https://github.com/peco/peco'
-  url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_darwin_amd64.zip"
-  sha1 "a3f635433a64ac747cc63f9e544e3dcc93f583f3"
+  if OS.mac?
+    url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_darwin_amd64.zip"
+    sha1 "a3f635433a64ac747cc63f9e544e3dcc93f583f3"
+  elsif OS.linux?
+    url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_linux_amd64.tar.gz"
+    sha1 "ff10ef1172314492c8e077c6e13410235faa1251"
+  end
 
   version HOMEBREW_PECO_VERSION
   head 'https://github.com/peco/peco.git', :branch => 'master'
