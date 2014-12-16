@@ -1,15 +1,15 @@
 # WARNING: Automatically generated. All changes to this file will be lost
 require 'formula'
 
-HOMEBREW_PECO_VERSION='0.2.10'
+HOMEBREW_PECO_VERSION='0.2.11'
 class Peco < Formula
   homepage 'https://github.com/peco/peco'
   if OS.mac?
     url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_darwin_amd64.zip"
-    sha1 "a3f635433a64ac747cc63f9e544e3dcc93f583f3"
+    sha1 "b04f3ee8f5e43fa3b162981b50bb72fe1acabb33"
   elsif OS.linux?
     url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_linux_amd64.tar.gz"
-    sha1 "ff10ef1172314492c8e077c6e13410235faa1251"
+    sha1 "96e379fb98bd1b401c6ee52230c11d38251572cf"
   end
 
   version HOMEBREW_PECO_VERSION
