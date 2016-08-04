@@ -1,7 +1,7 @@
 package main
 
 import (
-	"crypto/sha1"
+	"crypto/sha256"
 	"fmt"
 	"io"
 	"log"
@@ -17,10 +17,10 @@ class Peco < Formula
   homepage 'https://github.com/peco/peco'
   if OS.mac?
     url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_darwin_amd64.zip"
-    sha1 "%x"
+    sha256 "%x"
   elsif OS.linux?
     url "https://github.com/peco/peco/releases/download/v#{HOMEBREW_PECO_VERSION}/peco_linux_amd64.tar.gz"
-    sha1 "%x"
+    sha256 "%x"
   end
 
   version HOMEBREW_PECO_VERSION
@@ -54,10 +54,10 @@ class Migemogrep < Formula
   homepage 'https://github.com/peco/migemogrep'
   if OS.mac?
     url "https://github.com/peco/migemogrep/releases/download/v#{HOMEBREW_MIGEMOGREP_VERSION}/migemogrep_darwin_amd64.zip"
-    sha1 "%x"
+    sha256 "%x"
   elsif OS.linux?
     url "https://github.com/peco/migemogrep/releases/download/v#{HOMEBREW_MIGEMOGREP_VERSION}/migemogrep_linux_amd64.tar.gz"
-    sha1 "%x"
+    sha256 "%x"
   end
 
   version HOMEBREW_MIGEMOGREP_VERSION
@@ -112,7 +112,7 @@ func updateMigemogrepRb(version string) int {
 	return updateGenericRb("migemogrep", version, migemogrepRbFmt)
 }
 
-func fetchSha1(url string) (sum []byte, err error) {
+func fetchsha256(url string) (sum []byte, err error) {
 	log.Printf("Fetching url %s...", url)
 	res, err := http.Get(url)
 	if err != nil {
@@ -125,7 +125,7 @@ func fetchSha1(url string) (sum []byte, err error) {
 		return nil, err
 	}
 
-	h := sha1.New()
+	h := sha256.New()
 	io.Copy(h, res.Body)
 	return h.Sum(nil), nil
 }
@@ -140,7 +140,7 @@ func updateGenericRb(target, version, template string) int {
 	var err error
 
 	for i, u := range url {
-		if sum[i], err = fetchSha1(fmt.Sprintf(u, target, version, target)); err != nil {
+		if sum[i], err = fetchsha256(fmt.Sprintf(u, target, version, target)); err != nil {
 			return 1
 		}
 	}

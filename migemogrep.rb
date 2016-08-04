@@ -6,10 +6,10 @@ class Migemogrep < Formula
   homepage 'https://github.com/peco/migemogrep'
   if OS.mac?
     url "https://github.com/peco/migemogrep/releases/download/v#{HOMEBREW_MIGEMOGREP_VERSION}/migemogrep_darwin_amd64.zip"
-    sha1 "d565035fe29e92858ba4b4393d36a1f338758b6b"
+    sha256 "5b6eefbfbc2c6f89693988a17b96d4355b297dbe1cf8d517dd8d620d74fc0d51"
   elsif OS.linux?
     url "https://github.com/peco/migemogrep/releases/download/v#{HOMEBREW_MIGEMOGREP_VERSION}/migemogrep_linux_amd64.tar.gz"
-    sha1 "2f95ffb8c440ccfa9bf2e35a83f5e79aceb36985"
+    sha256 "db1fe734036b12e89644d73ea94e47983899c100ae6a154107ef912163a603fe"
   end
 
   version HOMEBREW_MIGEMOGREP_VERSION
